@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="db_3p_6amprog.MainPage">
+
+    <StackLayout>
+        <Frame BackgroundColor="#33FFE0" Padding="15" CornerRadius="0">
+            <Label Text="Bienvenido a la agencia  ¡EL PEPINO!" HorizontalTextAlignment="Center" TextColor="Black" FontSize="36"/>
+        </Frame>
+        <Label Text="¿Que accion deseas realizar?" FontSize="16" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="Black" Margin="12"/>
+        <Image WidthRequest="170" HeightRequest="220" Source="pepino.jpg"/>
+
+        <Button Text="registrar" x:Name="registro" Clicked="registro_Clicked" CornerRadius="12" FontSize="Medium" Margin="12" FontAttributes="Bold"/>
+        <Button Text="consultar" x:Name="consultar" Clicked="consultar_Clicked" CornerRadius="12" FontSize="Medium" Margin="12" FontAttributes="Bold"/>
+
+    </StackLayout>
+
+</ContentPage>

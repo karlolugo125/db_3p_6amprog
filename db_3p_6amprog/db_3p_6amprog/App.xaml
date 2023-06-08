@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="db_3p_6amprog.App">
+    <Application.Resources>
+        <Style TargetType="NavigationPage">
+            <Setter Property="BarBackground"
+                    Value="#33FFE0"
+                    />
+            <Setter Property="BarTextColor"
+                    Value="Black"
+                    />
+        </Style>
+
+    </Application.Resources>
+</Application>
