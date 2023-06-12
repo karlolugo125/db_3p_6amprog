@@ -23,7 +23,7 @@
                 <Entry Grid.Row="1" x:Name="marca" Placeholder="Marca"/>
                 <Entry Grid.Row="2" x:Name="modelo" Placeholder="Modelo"/>
                 <Entry Grid.Row="3" x:Name="año" Placeholder="Año" Keyboard="Numeric"/>
-                <Entry Grid.Row="4" x:Name="varios" Placeholder="Varios"/>
+                <Entry Grid.Row="4" x:Name="servicio" Placeholder="servicio"/>
                 <Button Grid.Row="5"  Text="registrar" x:Name="registros" Clicked="registros_Clicked" CornerRadius="12" FontSize="Medium" Margin="12" FontAttributes="Bold"/>
                 
                 </Grid>

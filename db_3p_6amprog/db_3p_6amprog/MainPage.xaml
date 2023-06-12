@@ -10,8 +10,10 @@
         <Label Text="¿Que accion deseas realizar?" FontSize="16" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="Black" Margin="12"/>
         <Image WidthRequest="170" HeightRequest="220" Source="pepino.jpg"/>
 
+      
         <Button Text="registrar" x:Name="registro" Clicked="registro_Clicked" CornerRadius="12" FontSize="Medium" Margin="12" FontAttributes="Bold"/>
-        <Button Text="consultar" x:Name="consultar" Clicked="consultar_Clicked" CornerRadius="12" FontSize="Medium" Margin="12" FontAttributes="Bold"/>
+        
+            <Button Text="consultar autos" x:Name="consultar" Clicked="consultar_Clicked" CornerRadius="12" FontSize="Medium" Margin="12" FontAttributes="Bold"/>
 
     </StackLayout>
 

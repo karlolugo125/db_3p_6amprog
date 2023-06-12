@@ -12,15 +12,13 @@ using Xamarin.Forms.Xaml;
 
 namespace db_3p_6amprog
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class registro : ContentPage
-	{
-		public registro ()
-		{
-			InitializeComponent ();
-		}
-
-     
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class registro : ContentPage
+    {
+        public registro()
+        {
+            InitializeComponent();
+        }
 
         private void registros_Clicked(object sender, EventArgs e)
         {
@@ -29,37 +27,71 @@ namespace db_3p_6amprog
             MySqlConnection conn = new MySqlConnection(connstring);
             try
             {
-                if (string.IsNullOrWhiteSpace(marca.Text) || string.IsNullOrWhiteSpace(modelo.Text) || string.IsNullOrWhiteSpace(año.Text) || string.IsNullOrWhiteSpace(varios.Text))
+                if (string.IsNullOrWhiteSpace(marca.Text) || string.IsNullOrWhiteSpace(modelo.Text) || string.IsNullOrWhiteSpace(año.Text))
                 {
-
-                    DisplayAlert("error", "algun dato esta vacio", "cerrar");
+                    DisplayAlert("Error", "Algun dato está vacío", "Cerrar");
                 }
                 else
                 {
                     conn.Open();
-                    string sql = "insert into autos(marca,modelo,año,varios) values('" + marca.Text + "','" + modelo.Text + "','" + año.Text + "','" + varios.Text + "')";
+                    string autoQuery = "INSERT INTO autos (marca, modelo, año) VALUES (@marca, @modelo, @año)";
+                    using (MySqlCommand autoCommand = new MySqlCommand(autoQuery, conn))
+                    {
+                        autoCommand.Parameters.AddWithValue("@marca", marca.Text);
+                        autoCommand.Parameters.AddWithValue("@modelo", modelo.Text);
+                        autoCommand.Parameters.AddWithValue("@año", año.Text);
+                        autoCommand.ExecuteNonQuery();
 
-                    MySqlCommand command = new MySqlCommand(sql, conn);
-                    command.ExecuteReaderAsync();
+                        // Obtener el último ID insertado en la tabla "autos"
+                        string lastInsertIdQuery = "SELECT LAST_INSERT_ID()";
+                        using (MySqlCommand lastInsertIdCommand = new MySqlCommand(lastInsertIdQuery, conn))
+                        {
+                            int autoId = Convert.ToInt32(lastInsertIdCommand.ExecuteScalar());
 
+                            // Insertar la relación en la tabla "auto_servicio"
+                            string servicioQuery = "INSERT INTO auto_servicio (id_servicio, id_auto) VALUES (@idServicio, @idAuto)";
+                            using (MySqlCommand servicioCommand = new MySqlCommand(servicioQuery, conn))
+                            {
+                                // Obtener el texto ingresado en el campo "servicio"
+                                string servicioText = servicio.Text;
 
-                    DisplayAlert("exito", "datos guardados correctamente", "cerrar");
-                    marca.Text = null;
-                    modelo.Text = null;
-                    año.Text = null;
-                    varios.Text = null;
+                                // Realizar una consulta para obtener el ID del servicio
+                                string selectQuery = "SELECT id_servicio FROM servicios WHERE servicio = @servicioText";
+                                using (MySqlCommand selectCommand = new MySqlCommand(selectQuery, conn))
+                                {
+                                    selectCommand.Parameters.AddWithValue("@servicioText", servicioText);
+                                    object result = selectCommand.ExecuteScalar();
+                                    if (result != null) // Verificar si se encontró un ID de servicio
+                                    {
+                                        int idServicio = Convert.ToInt32(result);
+                                        servicioCommand.Parameters.AddWithValue("@idServicio", idServicio);
+                                        servicioCommand.Parameters.AddWithValue("@idAuto", autoId);
+                                        servicioCommand.ExecuteNonQuery();
 
-
+                                        DisplayAlert("Éxito", "Datos guardados correctamente", "Cerrar");
+                                        marca.Text = null;
+                                        modelo.Text = null;
+                                        año.Text = null;
+                                        servicio.Text = null;
+                                    }
+                                    else
+                                    {
+                                        DisplayAlert("Error", "El servicio ingresado no existe", "Cerrar");
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-
             }
             catch (MySqlException ex)
             {
-
-                DisplayAlert("algun error", "conexion :" + ex.Message, "cerrar");
-
+                DisplayAlert("Error", "Conexión: " + ex.Message, "Cerrar");
             }
-            finally { conn.Close(); }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }
