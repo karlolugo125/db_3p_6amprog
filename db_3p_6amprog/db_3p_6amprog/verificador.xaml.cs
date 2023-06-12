@@ -10,46 +10,90 @@ using Xamarin.Forms.Xaml;
 
 namespace db_3p_6amprog
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class verificador : ContentPage
-	{
-		public verificador ()
-		{
-			InitializeComponent ();
-		}
-
-        
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class verificador : ContentPage
+    {
+        public verificador()
+        {
+            InitializeComponent();
+        }
 
         private void consultar_Clicked(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(cons.Text))
+            {
+                string connectionString = "Server=db4free.net;Port=3306;database=bdautos;User id=siferu;Password=siferu123;charset=utf-8";
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = "SELECT autos.modelo, servicios.servicio, servicios.costo " +
+                                   "FROM auto_servicio " +
+                                   "INNER JOIN autos ON auto_servicio.id_auto = autos.id_auto " +
+                                   "INNER JOIN servicios ON auto_servicio.id_servicio = servicios.id_servicio " +
+                                   "WHERE autos.id_auto = @id";
+
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@id", cons.Text);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        StringBuilder sb = new StringBuilder();
+
+                        while (reader.Read())
+                        {
+                            string modelo = reader.GetString("modelo");
+                            string servicio = reader.GetString("servicio");
+                            int costo = reader.GetInt32("costo");
+
+                            sb.AppendLine($"Modelo: {modelo}");
+                            sb.AppendLine($"Servicio: {servicio}");
+                            sb.AppendLine($"Costo: {costo}");
+                            sb.AppendLine("-----------------------------------");
+                        }
+
+                        mostrar.Text = sb.ToString();
+                    }
+
+                    connection.Close();
+                }
+            }
+        }
+
+        private void consnoid_Clicked(object sender, EventArgs e)
+        {
             string connectionString = "Server=db4free.net;Port=3306;database=bdautos;User id=siferu;Password=siferu123;charset=utf-8";
             using (MySqlConnection connection = new MySqlConnection(connectionString))
-
             {
                 connection.Open();
 
+                string query = "SELECT autos.modelo, servicios.servicio, servicios.costo " +
+                               "FROM auto_servicio " +
+                               "INNER JOIN autos ON auto_servicio.id_auto = autos.id_auto " +
+                               "INNER JOIN servicios ON auto_servicio.id_servicio = servicios.id_servicio";
 
-                string query = "SELECT marca,modelo,año,varios from autos WHERE id = @id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@id", cons.Text);
-
 
                 using (MySqlDataReader reader = command.ExecuteReader())
                 {
+                    StringBuilder sb = new StringBuilder();
 
-                    if (reader.Read())
+                    while (reader.Read())
                     {
-                        string dato1 = reader.GetString("marca");
-                        string dato2 = reader.GetString("modelo");
-                        int dato3 = reader.GetInt32("año");
-                        string dato4 = reader.GetString("varios");
+                        string modelo = reader.GetString("modelo");
+                        string servicio = reader.GetString("servicio");
+                        int costo = reader.GetInt32("costo");
 
-                        mostrar.Text = $"marca: {dato1}\n modelo : {dato2}\n año: {dato3}\n varios: {dato4}";
+                        sb.AppendLine($"Modelo: {modelo}");
+                        sb.AppendLine($"Servicio: {servicio}");
+                        sb.AppendLine($"Costo: {costo}");
+                        sb.AppendLine("-----------------------------------");
                     }
+
+                    mostrar.Text = sb.ToString();
                 }
 
                 connection.Close();
-
             }
         }
     }

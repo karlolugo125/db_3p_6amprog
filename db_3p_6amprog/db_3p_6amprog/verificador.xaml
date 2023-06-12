@@ -3,29 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="db_3p_6amprog.verificador">
     <ContentPage.Content>
-        <StackLayout >
-            <Frame BackgroundColor="#33FFE0" Padding="12" CornerRadius="0">
-                <Label Text="Consulta" HorizontalTextAlignment="Center" TextColor="Black" FontSize="36"/>
-            </Frame>
+        <ScrollView>
+            <StackLayout HeightRequest="2000">
+                <Frame BackgroundColor="#33FFE0" Padding="12" CornerRadius="0">
+                    <Label Text="Consulta" HorizontalTextAlignment="Center" TextColor="Black" FontSize="36"/>
+                </Frame>
+
+                <Grid Margin="40,3,40,3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="55" />
+                        <RowDefinition Height="55"/>
+                        <RowDefinition Height="55"/>
+                        <RowDefinition Height="85"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="1" Text="Consultar con id:" HorizontalTextAlignment="Center" Margin="16" FontAttributes="Bold"/>
+                    <Entry Grid.Row="2" x:Name="cons" Keyboard="Numeric" Placeholder="Id" HorizontalTextAlignment="Center" />
+                    <Button Grid.Row="3" Text="consultar" x:Name="consultar" Clicked="consultar_Clicked" CornerRadius="12" FontSize="Medium" Margin="12" FontAttributes="Bold" VerticalOptions="FillAndExpand"/>
+                    <Button Grid.Row="4" Text="consultar sin id" x:Name="consnoid" Clicked="consnoid_Clicked" CornerRadius="12" FontSize="Medium" Margin="12" FontAttributes="Bold" VerticalOptions="FillAndExpand"/>
 
 
-            <Grid Margin="40,3,40,3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="55" />
-                    <RowDefinition Height="55"/>
-                    <RowDefinition Height="85"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-
-                <Label Grid.Row="1"    Text="Consultar con id: " HorizontalTextAlignment="Center" Margin="16"  FontAttributes="Bold"/>
-                <Entry Grid.Row="2"    x:Name="cons" Keyboard="Numeric" Placeholder="Id" HorizontalTextAlignment="Center" />
-                <Button Grid.Row="3" Text="consultar" x:Name="consultar" Clicked="consultar_Clicked" CornerRadius="12" FontSize="Medium" Margin="12" FontAttributes="Bold"/>
-                <Label Grid.Row="4" x:Name="mostrar"/>
-            </Grid>
-        </StackLayout>
-
+                    <Label Grid.Row="5" x:Name="mostrar"/>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

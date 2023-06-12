@@ -28,5 +28,7 @@ namespace db_3p_6amprog
         {
             await Navigation.PushAsync(new registro());
         }
+
+       
     }
 }
